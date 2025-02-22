@@ -8,9 +8,23 @@ Example python script to for testing reading and writing data to a Samsung Heat 
 - Raspberry Pi with [USB Modbus reader](https://shop.openenergymonitor.com/modbus-rs485-to-usb-adaptor/)
 - Python 3
 
+## Setup a virtual environment
+
+```
+$ python3 -m venv venv
+```
+
+### Activate it on Linux / MacOS
+
+```
+$ source venv/bin/activate
+```
+### On Windows
+```
+.\venv\Scripts\activate
+```
 
 ## Install python module
-
 ```
 $ pip3 install minimalmodbus
 ```
