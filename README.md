@@ -11,13 +11,13 @@ Example python script to for testing reading and writing data to a Samsung Heat 
 ## Setup a virtual environment
 
 ```
-$ python3 -m venv venv
+python3 -m venv venv
 ```
 
 ### Activate it on Linux / MacOS
 
 ```
-$ source venv/bin/activate
+source venv/bin/activate
 ```
 ### On Windows
 ```
@@ -26,17 +26,17 @@ $ source venv/bin/activate
 
 ## Install python module
 ```
-$ pip3 install minimalmodbus
+pip3 install minimalmodbus dotenv gpiozero paho-mqtt
 ```
 
-## Run with
+## Test the modbus connection
 
 
 ```
-$ python3 samsung-modbus.py
+python3 samsung-modbus.py
 ```
 
-## Example output
+### Example output:
 
 ```
 Central heating status: 0
@@ -51,11 +51,27 @@ DHW temp: 49.8
 Away mode status: 0
 ```
 
+## To run the mqtt client
+
+### Create .env file
+
+```
+cp .env-example .env
+```
+
+Update the values to point at your MQTT server (this could be the homeassistant addon).
+
+### Run the client manually
+
+```
+python3 mqtt_client.py
+```
+
 ## Control commands
 
 Write / controll comands can be activated by un-commenting them.
 
-## Next setps
+## Next steps
 
 - [**DONE:**](https://github.com/openenergymonitor/emonhub/tree/master/conf/interfacer_examples/samsung-ashp) Integrated this into a [EmonHub](https://github.com/openenergymonitor/emonhub) interfacer module to log the data to MQTT and [Emoncms](https://github.com/emoncms/emoncms) 
 - Home Assistant integration? (can anyone help with this?)
