@@ -37,7 +37,7 @@ class ModbusClient(object):
         self.instrument.address = SLAVE_ADDRESS
         self.instrument.mode = MODE
         
-        self.instrument.write_registers(7005,[0x42E9, 0x42F1, 0x4067, 0x8204])
+        self.instrument.write_registers(7005, [0x42E9, 0x42F1, 0x4067, 0x8204])
         
         try:
             assert self.get_outdoor_temp(), "Failed to connect to device"
@@ -162,9 +162,14 @@ class ModbusClient(object):
             except minimalmodbus.NoResponseError as e:
                 if attempt < RETRIES:
                     time.sleep(RETRY_DELAY)
+            except serial.SerialException as e:
+                print(f"SerialException: {e}")
+                self.reconnect_serial()
+                if attempt < RETRIES:
+                    time.sleep(RETRY_DELAY)
         print(f"Failed to read register {reg} after {RETRIES + 1} attempts.")
         return None
-    
+
     def safe_write_register(self, reg, value):
         global flag_writing
         flag_writing = True
@@ -176,9 +181,22 @@ class ModbusClient(object):
             except minimalmodbus.NoResponseError as e:
                 if attempt < RETRIES:
                     time.sleep(RETRY_DELAY)
+            except serial.SerialException as e:
+                print(f"SerialException: {e}")
+                self.reconnect_serial()
+                if attempt < RETRIES:
+                    time.sleep(RETRY_DELAY)
         flag_writing = False
         print(f"Failed to write register {reg} after {RETRIES + 1} attempts.")
         return None
+
+    def reconnect_serial(self):
+        try:
+            self.instrument.serial.close()
+            self.instrument.serial.open()
+            print("Reconnected to serial device")
+        except Exception as e:
+            print(f"Failed to reconnect: {e}")
 
     def round(self, value):
         return round(0.1 * value, 2)
