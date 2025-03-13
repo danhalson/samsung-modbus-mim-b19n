@@ -2,6 +2,7 @@ sensor:
   - name: "Samsung Modbus"
     state_topic: "raspberry/ashp/status"
     json_attributes_topic: "raspberry/ashp/sensors"
+    unique_id: "samsung_ashp"
 
 switch:
   - unique_id: ashp_ch_switch
