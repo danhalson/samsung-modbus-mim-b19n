@@ -29,7 +29,7 @@ MQTT_SENSORS_TOPIC = "raspberry/ashp/sensors"
 MQTT_COMMAND_TOPIC = "raspberry/ashp/command"
 
 # Define variables
-MSG_INTERVAL = 30 # Data collection interval in secs. 5 mins = 5 * 60 = 300
+MSG_INTERVAL = 5 # Data collection interval in secs. 5 mins = 5 * 60 = 300
 
 # MQTT
 def on_connect(client, userdata, flags, reason_code, properties):
