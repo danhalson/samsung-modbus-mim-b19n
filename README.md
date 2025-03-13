@@ -67,9 +67,35 @@ Update the values to point at your MQTT server (this could be the homeassistant 
 python3 mqtt_client.py
 ```
 
+### Run the client as a service
+
+## Running Script When Pi Starts
+
+```
+sudo cp samsung_modbus.service /etc/systemd/system/
+```
+
+Systemd needs to be made aware of the configuration change. Reload the systemd daemon with the following:
+
+```
+sudo systemctl daemon-reload
+```
+
+Enable the new service:
+
+```
+sudo systemctl enable samsung_modbus.service
+```
+
+Restart the pi and once the network services are loaded, the script should run and start broadcasting sensor data over MQTT. If it doesn't, type in this command to see the status of the service and diagnose from there.
+
+```
+sudo systemctl status samsung_modbus.service
+```
+
 ## Control commands
 
-Write / controll comands can be activated by un-commenting them.
+It currently supports turning on/off the CH and DHW
 
 ## Next steps
 

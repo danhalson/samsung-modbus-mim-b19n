@@ -1,0 +1,123 @@
+# Samsung ASHP
+- sensor:
+  - id: "ashp_outdoor_temp"
+    name: "ASHP: Outdoor Temp"
+    state: "{{ state_attr('sensor.samsung_modbus', 'outdoor_temp') | float | round(1) }}"
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+
+  - id: "ashp_flow_rate"
+    name: "ASHP: Flow Rate"
+    state: "{{ state_attr('sensor.samsung_modbus', 'flow_rate') | float | round(1) }}"
+    icon: mdi:water
+    unit_of_measurement: "L/min"
+
+  - id: "ashp_three_way_valve_position"
+    name: "ASHP: Three Way Valve Position"
+    state: >
+      {% if state_attr('sensor.samsung_modbus', 'three_way_valve_position') == 0 %}
+        Heating
+      {% elif state_attr('sensor.samsung_modbus', 'three_way_valve_position') == 1 %}
+        DHW
+      {% else %}
+        Unknown
+      {% endif %}
+    icon: mdi:valve
+
+  - id: "ashp_dhw_temp"
+    name: "ASHP: DHW Temp"
+    state: "{{ state_attr('sensor.samsung_modbus', 'dhw_temp') | float | round(1) }}"
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+
+  - id: "ashp_return_temp"
+    name: "ASHP: Return Temp"
+    state: "{{ state_attr('sensor.samsung_modbus', 'return_temp') | float | round(1) }}"
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+
+  - id: "ashp_flow_temp"
+    name: "ASHP: Flow Temp"
+    state: "{{ state_attr('sensor.samsung_modbus', 'flow_temp') | float | round(1) }}"
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+
+  - id: "ashp_target_flow_temp"
+    name: "ASHP: Target Flow Temp"
+    state: "{{ state_attr('sensor.samsung_modbus', 'target_flow_temp') | float | round(1) }}"
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+
+  - id: "ashp_dhw_status"
+    name: "ASHP: DHW Status"
+    state: >
+      {% if state_attr('sensor.samsung_modbus', 'dhw_status') == 1 %}
+        On
+      {% else %}
+        Off
+      {% endif %}
+    icon: mdi:water-boiler
+
+  - id: "ashp_target_dhw_temp"
+    name: "ASHP: Target DHW Temp"
+    state: "{{ state_attr('sensor.samsung_modbus', 'target_dhw_temp') | float | round(1) }}"
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+
+  - id: "ashp_away_status"
+    name: "ASHP: Away Status"
+    state: >
+      {% if state_attr('sensor.samsung_modbus', 'away_status') == 1 %}
+        On
+      {% else %}
+        Off
+      {% endif %}
+    icon: mdi:home-export-outline
+
+  - id: "ashp_ch_status"
+    name: "ASHP: CH Status"
+    state: >
+      {% if state_attr('sensor.samsung_modbus', 'ch_status') == 1 %}
+        On
+      {% else %}
+        Off
+      {% endif %}
+    icon: mdi:radiator
+
+  - id: "ashp_indoor_temp"
+    name: "ASHP: Indoor Temp"
+    state: "{{ state_attr('sensor.samsung_modbus', 'indoor_temp') | float | round(1) }}"
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+    
+  - id: "ashp_error_code"
+    name: "ASHP: Error Code"
+    state: "{{ state_attr('sensor.samsung_modbus', 'error_code') }}"
+    icon: mdi:alert-circle-outline
+
+  - id: "ashp_dhw_mode"
+    name: "ASHP: DHW Mode"
+    state: >
+      {% set mode = state_attr('sensor.samsung_modbus', 'dhw_mode') %}
+      {% if mode == 0 %}
+        Eco
+      {% elif mode == 1 %}
+        Standard
+      {% elif mode == 2 %}
+        Power
+      {% elif mode == 3 %}
+        Forced
+      {% else %}
+        Unknown
+      {% endif %}
+    icon: mdi:water-boiler
+
+  - id: "ashp_last_message"
+    name: "ASHP: Last Message"
+    state: "{{ state_attr('sensor.samsung_modbus', 'last_message') }}"
+    icon: mdi:clock
+
+  - id: "ashp_wx_uptime"
+    name: "ASHP: WX Uptime"
+    state: "{{ state_attr('sensor.samsung_modbus', 'sys_uptime') }}"
+    icon: mdi:sort-clock-descending

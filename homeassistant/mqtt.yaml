@@ -1,0 +1,16 @@
+sensor:
+  - name: "Samsung Modbus"
+    state_topic: "raspberry/ashp/status"
+    json_attributes_topic: "raspberry/ashp/sensors"
+
+switch:
+  - unique_id: ashp_ch_switch
+    name: "ASHP: Heating Switch"
+    command_topic: "raspberry/ashp/command"
+    payload_on: '{"method": "set_ch_status", "value": 1}'
+    payload_off: '{"method": "set_ch_status", "value": 0}'
+  - unique_id: ashp_dhw_switch
+    name: "ASHP: DHW Switch"
+    command_topic: "raspberry/ashp/command"
+    payload_on: '{"method": "set_dhw_status", "value": 1}'
+    payload_off: '{"method": "set_dhw_status", "value": 0}'
