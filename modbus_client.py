@@ -61,7 +61,7 @@ class ModbusClient(object):
     def get_compressor_freq(self):
         time.sleep(1)
         raw_value = self.safe_read_register(88, 3)
-        return round(raw_value)
+        return self.round(raw_value)
     
     def get_dhw_temp(self):
         time.sleep(STD_INTERVAL)
@@ -114,27 +114,15 @@ class ModbusClient(object):
         time.sleep(STD_INTERVAL)
         return self.safe_read_register(2, 3)
     
-    def get_dhw_mode(self, iu = 0):
-        if not (0 <= iu <= 47):
-            raise ValueError("IU index must be between 0 and 47")
-        register = 50 + (iu * 50) + 23
+    def get_dhw_mode(self):
         time.sleep(STD_INTERVAL)
-        raw_value = self.safe_read_register(register, 3)
-        return raw_value
+        return self.safe_read_register(73, 3)
 
-    def get_error_code(self, iu = 0):
-        if not (0 <= iu <= 47):
-            raise ValueError("IU must be between 0 and 47")
-
-        base_register = 50 + (iu * 50)
-        register_14 = base_register + 14
-        register_13 = base_register + 13
-
+    def get_error_code(self):
         time.sleep(STD_INTERVAL)
-        error_code_14 = self.safe_read_register(register_14, 3)
-        error_code_13 = self.safe_read_register(register_13, 3)
-
-        return error_code_14, error_code_13
+        error_1 = self.safe_read_register(63, 3)
+        error_2 = self.safe_read_register(64, 3)
+        return error_1, error_2
     
     def set_ch_status(self, value):
         if value not in [0, 1]:
@@ -150,9 +138,9 @@ class ModbusClient(object):
     
     def safe_read_register(self, reg, fcode, signed=False):
         global flag_writing
-        # if flag_writing == True:
-        #     print(f"Writing in progress. Skipping read register {reg}")
-        #     return None
+        if flag_writing == True:
+            print(f"Writing in progress. Skipping read register {reg}")
+            return None
         
         for attempt in range(RETRIES + 1):
             try:
@@ -199,8 +187,10 @@ class ModbusClient(object):
             print(f"Failed to reconnect: {e}")
 
     def round(self, value):
+        if value is None:
+            return None
         return round(0.1 * value, 2)
-    
+        
     def millis(self):
         return int(round(time.time() * 1000))
 
