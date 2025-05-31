@@ -2,6 +2,7 @@
 import minimalmodbus
 import serial
 import time
+import threading
 
 # Define constants
 DEBUG_MODE = False
@@ -15,17 +16,18 @@ SLAVE_ADDRESS = 1 # this is the slave address number
 MODE = minimalmodbus.MODE_RTU # rtu or ascii mode
 STD_INTERVAL = 0.5
 RETRIES = 3
-RETRY_DELAY = 1
+RETRY_DELAY = 5
 
 # TODO: Get CH mode
 # TODO: Get target flow temp (taking weather compensation into account, if possible)
 # TODO: Set indoor temp? if this makes sense
 
-flag_writing = False
-
 class ModbusClient(object):
     def __init__(self):
         print("Connecting to device...")
+        
+        self.lock = threading.Lock()
+        
         self.instrument = minimalmodbus.Instrument(SERIAL_PORT, SLAVE_ADDRESS)
         self.instrument.serial.port = SERIAL_PORT
         self.instrument.serial.baudrate = BAUDRATE
@@ -137,46 +139,44 @@ class ModbusClient(object):
         return self.safe_write_register(72, value)
     
     def safe_read_register(self, reg, fcode, signed=False):
-        global flag_writing
-        if flag_writing == True:
-            print(f"Writing in progress. Skipping read register {reg}")
+        with self.lock:
+            for attempt in range(RETRIES + 1):
+                try:
+                    result = self.instrument.read_register(
+                        reg, functioncode = fcode, signed = signed
+                    ) 
+                    if result is None:
+                        return None
+                    return result
+                except minimalmodbus.NoResponseError as e:
+                    if attempt < RETRIES:
+                        time.sleep(RETRY_DELAY)
+                except serial.SerialException as e:
+                    print(f"SerialException: {e}")
+                    self.reconnect_serial()
+                    if attempt < RETRIES:
+                        time.sleep(RETRY_DELAY)
+            print(f"Failed to read register {reg} after {RETRIES + 1} attempts.")
             return None
-        
-        for attempt in range(RETRIES + 1):
-            try:
-                return self.instrument.read_register(
-                    reg, functioncode = fcode, signed = signed
-                )
-            except minimalmodbus.NoResponseError as e:
-                if attempt < RETRIES:
-                    time.sleep(RETRY_DELAY)
-            except serial.SerialException as e:
-                print(f"SerialException: {e}")
-                self.reconnect_serial()
-                if attempt < RETRIES:
-                    time.sleep(RETRY_DELAY)
-        print(f"Failed to read register {reg} after {RETRIES + 1} attempts.")
-        return None
 
     def safe_write_register(self, reg, value):
-        global flag_writing
-        flag_writing = True
-        for attempt in range(RETRIES + 1):
-            try:
-                result = self.instrument.write_register(reg, value)
-                flag_writing = False
-                return result
-            except minimalmodbus.NoResponseError as e:
-                if attempt < RETRIES:
-                    time.sleep(RETRY_DELAY)
-            except serial.SerialException as e:
-                print(f"SerialException: {e}")
-                self.reconnect_serial()
-                if attempt < RETRIES:
-                    time.sleep(RETRY_DELAY)
-        flag_writing = False
-        print(f"Failed to write register {reg} after {RETRIES + 1} attempts.")
-        return None
+        with self.lock:
+            for attempt in range(RETRIES + 1):
+                try:
+                    result = self.instrument.write_register(reg, value)
+                    if result is None:
+                        return None
+                    return result
+                except minimalmodbus.NoResponseError as e:
+                    if attempt < RETRIES:
+                        time.sleep(RETRY_DELAY)
+                except serial.SerialException as e:
+                    print(f"SerialException: {e}")
+                    self.reconnect_serial()
+                    if attempt < RETRIES:
+                        time.sleep(RETRY_DELAY)
+            print(f"Failed to write register {reg} after {RETRIES + 1} attempts.")
+            return None
 
     def reconnect_serial(self):
         try:

@@ -1,11 +1,9 @@
 [Unit]
 Description=Samsung Modbus Service
-Wants=systemd-networkd-wait-online.service
-After=systemd-networkd-wait-online.service
 
 [Service]
 Type=simple
-ExecStart=/home/danhalson/samsung-modbus-mim-b19n/venv/bin/python3 /home/danhalson/samsung-modbus-mim-b19n/mqtt_client.py
+ExecStart=bash -c "cd /home/danhalson/samsung-modbus-mim-b19n && venv/bin/python3 mqtt_client.py"
 Restart=always
 RestartSec=5s
 

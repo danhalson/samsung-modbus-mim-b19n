@@ -1,0 +1,161 @@
+[
+  {
+    "name": "Outdoor Temperature",
+    "state_topic": "raspberry/ashp/sensors",
+    "unit_of_measurement": "°C",
+    "value_template": "{{ value_json.outdoor_temp }}",
+    "unique_id": "samsung_ashp_outdoor_temp",
+    "icon": "mdi:thermometer",
+    "device": {}
+  },
+  {
+    "name": "Flow Rate",
+    "state_topic": "raspberry/ashp/sensors",
+    "unit_of_measurement": "L/min",
+    "value_template": "{{ value_json.flow_rate }}",
+    "unique_id": "samsung_ashp_flow_rate",
+    "device": {}
+  },
+  {
+    "name": "3-Way Valve Position",
+    "state_topic": "raspberry/ashp/sensors",
+    "value_template": "{{ value_json.three_way_valve_position }}",
+    "unique_id": "samsung_ashp_three_way_valve_position",
+    "icon": "mdi:valve",
+    "device": {}
+  },
+  {
+    "name": "Compressor Frequency",
+    "state_topic": "raspberry/ashp/sensors",
+    "unit_of_measurement": "Hz",
+    "value_template": "{{ value_json.compressor_freq }}",
+    "unique_id": "samsung_ashp_compressor_freq",
+    "device": {}
+  },
+  {
+    "name": "DHW Temperature",
+    "state_topic": "raspberry/ashp/sensors",
+    "unit_of_measurement": "°C",
+    "value_template": "{{ value_json.dhw_temp }}",
+    "unique_id": "samsung_ashp_dhw_temp",
+    "icon": "mdi:thermometer",
+    "device": {}
+  },
+  {
+    "name": "Return Temperature",
+    "state_topic": "raspberry/ashp/sensors",
+    "unit_of_measurement": "°C",
+    "value_template": "{{ value_json.return_temp }}",
+    "unique_id": "samsung_ashp_return_temp",
+    "icon": "mdi:thermometer",
+    "device": {}
+  },
+  {
+    "name": "Flow Temperature",
+    "state_topic": "raspberry/ashp/sensors",
+    "unit_of_measurement": "°C",
+    "value_template": "{{ value_json.flow_temp }}",
+    "unique_id": "samsung_ashp_flow_temp",
+    "icon": "mdi:thermometer",
+    "device": {}
+  },
+  {
+    "name": "Target Flow Temperature",
+    "state_topic": "raspberry/ashp/sensors",
+    "unit_of_measurement": "°C",
+    "value_template": "{{ value_json.target_flow_temp }}",
+    "unique_id": "samsung_ashp_target_flow_temp",
+    "icon": "mdi:thermometer",
+    "device": {}
+  },
+  {
+    "name": "DHW Status",
+    "state_topic": "raspberry/ashp/sensors",
+    "value_template": "{{ value_json.dhw_status }}",
+    "unique_id": "samsung_ashp_dhw_status",
+    "icon": "mdi:water-boiler",
+    "device": {}
+  },
+  {
+    "name": "Target DHW Temperature",
+    "state_topic": "raspberry/ashp/sensors",
+    "unit_of_measurement": "°C",
+    "value_template": "{{ value_json.target_dhw_temp }}",
+    "unique_id": "samsung_ashp_target_dhw_temp",
+    "icon": "mdi:thermometer",
+    "device": {}
+  },
+  {
+    "name": "Away Status",
+    "state_topic": "raspberry/ashp/sensors",
+    "value_template": "{{ value_json.away_status }}",
+    "unique_id": "samsung_ashp_away_status",
+    "icon": "mdi:home-export-outline",
+    "device": {}
+  },
+  {
+    "name": "CH Status",
+    "state_topic": "raspberry/ashp/sensors",
+    "value_template": "{{ value_json.ch_status }}",
+    "unique_id": "samsung_ashp_ch_status",
+    "icon": "mdi:radiator",
+    "device": {}
+  },
+  {
+    "name": "Indoor Temperature",
+    "state_topic": "raspberry/ashp/sensors",
+    "unit_of_measurement": "°C",
+    "value_template": "{{ value_json.indoor_temp }}",
+    "unique_id": "samsung_ashp_indoor_temp",
+    "icon": "mdi:thermometer",
+    "device": {}
+  },
+  {
+    "name": "Target Indoor Temperature",
+    "state_topic": "raspberry/ashp/sensors",
+    "unit_of_measurement": "°C",
+    "value_template": "{{ value_json.target_indoor_temp }}",
+    "unique_id": "samsung_ashp_target_indoor_temp",
+    "icon": "mdi:thermometer",
+    "device": {}
+  },
+  {
+    "name": "Defrost Status",
+    "state_topic": "raspberry/ashp/sensors",
+    "value_template": "{{ value_json.defrost_status }}",
+    "unique_id": "samsung_ashp_defrost_status",
+    "icon": "mdi:valve",
+    "device": {}
+  },
+  {
+    "name": "Error Code",
+    "state_topic": "raspberry/ashp/sensors",
+    "value_template": "{{ value_json.error_code }}",
+    "unique_id": "samsung_ashp_error_code",
+    "icon": "mdi:alert-circle",
+    "device": {}
+  },
+  {
+    "name": "DHW Mode",
+    "state_topic": "raspberry/ashp/sensors",
+    "value_template": "{{ value_json.dhw_mode }}",
+    "unique_id": "samsung_ashp_dhw_mode",
+    "icon": "mdi:water-boiler-alert",
+    "device": {}
+  },
+  {
+    "name": "Last Message",
+    "state_topic": "raspberry/ashp/sensors",
+    "value_template": "{{ value_json.last_message }}",
+    "unique_id": "samsung_ashp_last_message",
+    "device": {}
+  },
+  {
+    "name": "System Uptime",
+    "state_topic": "raspberry/ashp/sensors",
+    "value_template": "{{ value_json.sys_uptime }}",
+    "unique_id": "samsung_ashp_sys_uptime",
+    "icon": "mdi:clock-outline",
+    "device": {}
+  }
+]
